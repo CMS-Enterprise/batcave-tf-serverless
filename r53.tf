@@ -14,6 +14,6 @@ resource "aws_route53_record" "dns" {
   type            = "CNAME"
   ttl             = "300"
   allow_overwrite = true
-  records         = [module.serverless.custom_domain_target]
+  records         = [module.nlb.lb_dns_name]
 }
 

@@ -44,3 +44,13 @@ variable "custom_subdomain" {
   type        = string
   description = "Subdomain for the optionally created dns records"
 }
+
+variable "transport_subnet_cidr_blocks" {
+  description = "Map of transport subnets to cidrs for creating the NLB"
+  type = map(any)
+}
+variable "tg_prefix" {
+  type = string
+  default = "lambda"
+  description = "Name prefix for target groups created; must be < 6 characters"
+}
