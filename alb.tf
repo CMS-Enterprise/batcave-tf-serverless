@@ -6,10 +6,12 @@ module "alb" {
 
   load_balancer_type = "application"
 
-  vpc_id             = var.vpc_id
-  internal = true
-  subnets            = var.private_subnets
+  vpc_id          = var.vpc_id
+  internal        = true
+  subnets         = var.private_subnets
   security_groups = [aws_security_group.lambda.id]
+
+  drop_invalid_header_fields = true
 
   #access_logs = {
   #  bucket = "my-alb-logs"
@@ -17,7 +19,7 @@ module "alb" {
 
   target_groups = [
     {
-      target_type      = "lambda"
+      target_type = "lambda"
       ## Can't use targets because the module doesn't have a mechanism for adding ALB permissions to the Lambda function
       #targets = [
       #  {

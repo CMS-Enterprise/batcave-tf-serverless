@@ -19,11 +19,11 @@ module "nlb" {
   name = "${var.service_name}-nlb"
 
   load_balancer_type = "network"
-  internal = true
+  internal           = true
 
-  vpc_id  = var.vpc_id
+  vpc_id = var.vpc_id
   #subnets = var.private_subnets
-  subnet_mapping = [ for k, v in var.transport_subnet_cidr_blocks : { subnet_id = k, private_ipv4_address = cidrhost(v, 6)}]
+  subnet_mapping = [for k, v in var.transport_subnet_cidr_blocks : { subnet_id = k, private_ipv4_address = cidrhost(v, var.transport_subnet_ip_index) }]
 
   #access_logs = {
   #  bucket = "my-nlb-logs"
@@ -35,7 +35,7 @@ module "nlb" {
       backend_protocol = "TCP"
       backend_port     = 80
       target_type      = "alb"
-      vpc_id = var.vpc_id
+      vpc_id           = var.vpc_id
       targets = [
         {
           target_id = module.alb.lb_arn
@@ -47,7 +47,7 @@ module "nlb" {
       backend_protocol = "TCP"
       backend_port     = 443
       target_type      = "alb"
-      vpc_id = var.vpc_id
+      vpc_id           = var.vpc_id
       targets = [
         {
           target_id = module.alb.lb_arn
@@ -66,8 +66,8 @@ module "nlb" {
       target_group_index = 0
     },
     {
-      port               = 443
-      protocol           = "TCP"
+      port     = 443
+      protocol = "TCP"
       #certificate_arn    = var.create_custom_domain ? data.aws_acm_certificate.acm_certificate[0].arn : null
       target_group_index = 1
     }

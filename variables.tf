@@ -47,10 +47,20 @@ variable "custom_subdomain" {
 
 variable "transport_subnet_cidr_blocks" {
   description = "Map of transport subnets to cidrs for creating the NLB"
-  type = map(any)
+  type        = map(any)
 }
 variable "tg_prefix" {
-  type = string
-  default = "lambda"
+  type        = string
+  default     = "lambda"
   description = "Name prefix for target groups created; must be < 6 characters"
+}
+
+variable "transport_subnet_ip_index" {
+  default     = 6
+  description = "The X'th IP within each transport subnet cidr block to assign to the NLB"
+}
+
+variable "lambda_path" {
+  description = "Path to the lambda code"
+  default     = "lambda"
 }

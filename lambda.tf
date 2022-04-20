@@ -1,23 +1,23 @@
 module "lambda" {
-  source = "terraform-aws-modules/lambda/aws"
+  source  = "terraform-aws-modules/lambda/aws"
   version = "~> 3.1"
 
   depends_on = [
     aws_security_group.lambda
   ]
 
-  function_name = "${var.service_name}"
+  function_name = var.service_name
   handler       = "index.lambda_handler"
   runtime       = "python3.9"
 
-  source_path = "${path.module}/lambda"
+  source_path = "${path.module}/${var.lambda_path}"
 
   vpc_subnet_ids         = var.private_subnets
   vpc_security_group_ids = [aws_security_group.lambda.id]
   attach_network_policy  = true
 
-  role_path = var.iam_role_path
-  policy_path = var.iam_role_path
+  role_path                 = var.iam_role_path
+  policy_path               = var.iam_role_path
   role_permissions_boundary = var.iam_role_permissions_boundary
 
   environment_variables = {
