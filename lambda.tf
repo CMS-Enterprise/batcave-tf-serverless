@@ -10,7 +10,8 @@ module "lambda" {
   handler       = "index.lambda_handler"
   runtime       = "python3.9"
 
-  source_path = "${path.module}/${var.lambda_path}"
+  recreate_missing_package = false
+  source_path              = "${path.module}/${var.lambda_path}"
 
   vpc_subnet_ids         = var.private_subnets
   vpc_security_group_ids = [aws_security_group.lambda.id]
