@@ -25,8 +25,9 @@ module "lambda" {
   }
 }
 
+# These resources attach the ALB to the Lambda
 resource "aws_lambda_permission" "alb_to_lambda" {
-  statement_id  = "AllowExecutionFromlb"
+  statement_id  = "AllowExecutionFromPublicALB"
   action        = "lambda:InvokeFunction"
   principal     = "elasticloadbalancing.amazonaws.com"
   function_name = module.lambda.lambda_function_arn

@@ -4,18 +4,13 @@ module "alb" {
 
   name = "${var.service_name}-alb"
 
-  load_balancer_type = "application"
-
-  vpc_id          = var.vpc_id
-  internal        = true
-  subnets         = var.private_subnets
-  security_groups = [aws_security_group.lambda.id]
-
+  vpc_id                     = var.vpc_id
+  subnets                    = var.frontend_subnets
+  load_balancer_type         = "application"
+  internal                   = true
+  security_groups            = [aws_security_group.lambda.id]
   drop_invalid_header_fields = true
-
-  #access_logs = {
-  #  bucket = "my-alb-logs"
-  #}
+  access_logs                = var.alb_access_logs
 
   target_groups = [
     {

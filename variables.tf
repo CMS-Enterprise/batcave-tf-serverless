@@ -15,10 +15,18 @@ variable "service_name" {
 variable "vpc_id" {}
 
 variable "private_subnets" {
-  type = list(any)
+  type        = list(any)
+  description = "List of subnet ids where the lambda will execute"
+}
+variable "frontend_subnets" {
+  type        = list(any)
+  description = "List of subnet ids to house the front-end of this lambda (such as Shared subnet or Transport subnet)"
 }
 
-variable "base_domain" {}
+variable "base_domain" {
+  type        = string
+  description = "The base domain of the services the lambda should be requesting to.  eg: 'batcave.internal.cms.gov'"
+}
 
 variable "create_custom_domain" {
   type        = bool
@@ -45,22 +53,31 @@ variable "custom_subdomain" {
   description = "Subdomain for the optionally created dns records"
 }
 
-variable "transport_subnet_cidr_blocks" {
-  description = "Map of transport subnets to cidrs for creating the NLB"
-  type        = map(any)
-}
 variable "tg_prefix" {
   type        = string
   default     = "lambda"
   description = "Name prefix for target groups created; must be < 6 characters"
 }
 
-variable "transport_subnet_ip_index" {
-  default     = 6
-  description = "The X'th IP within each transport subnet cidr block to assign to the NLB"
-}
 
 variable "lambda_path" {
   description = "Path to the lambda code"
   default     = "lambda"
+}
+
+variable "ingress_prefix_lists" {
+  description = "List of prefix lists to attach to ALB Security Group"
+  default     = []
+  type        = list(any)
+}
+
+variable "ingress_cidrs" {
+  description = "List of CIDR Blocks to attach to ALB Security Group"
+  default     = ["10.0.0.0/8"]
+  type        = list(any)
+}
+
+variable "alb_access_logs" {
+  description = "Map of aws_lb access_log config"
+  default     = {}
 }
