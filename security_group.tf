@@ -7,24 +7,39 @@ resource "aws_security_group" "lambda" {
   description = "Security group for ${var.service_name}"
   vpc_id      = local.vpc_id
 
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  ingress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["10.0.0.0/8"]
-  }
-
   provisioner "local-exec" {
     ## https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group#timeouts
     ## ENIs created by lambda can take up to 45 minutes to destroy.
-    ## This destroy-time local-exec will just delete them by hand before the SG gets destroyed
+    ## This destroy-time local-exec will (hopefully) just delete them by hand before the SG gets destroyed
     when    = destroy
     command = "aws ec2 describe-network-interfaces --filters Name=group-id,Values=${self.id} --query NetworkInterfaces[].NetworkInterfaceId --output text | xargs -n1 aws ec2 delete-network-interface --network-interface-id || true"
   }
+}
+
+resource "aws_security_group_rule" "egress" {
+  type              = "egress"
+  from_port         = 0
+  to_port           = 0
+  protocol          = "-1"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.lambda.id
+}
+
+resource "aws_security_group_rule" "ingress_cidrs" {
+  count             = length(var.ingress_cidrs) > 0 ? 1 : 0
+  type              = "ingress"
+  from_port         = 443
+  to_port           = 443
+  protocol          = "tcp"
+  cidr_blocks       = var.ingress_cidrs
+  security_group_id = aws_security_group.lambda.id
+}
+resource "aws_security_group_rule" "ingress_prefix_list" {
+  count             = length(var.ingress_prefix_lists) > 0 ? 1 : 0
+  type              = "ingress"
+  from_port         = 443
+  to_port           = 443
+  protocol          = "tcp"
+  prefix_list_ids   = var.ingress_prefix_lists
+  security_group_id = aws_security_group.lambda.id
 }
