@@ -7,8 +7,8 @@ module "lambda" {
   ]
 
   function_name = var.service_name
-  handler       = "index.lambda_handler"
-  runtime       = "python3.9"
+  handler       = "index.lambdaHandler"
+  runtime       = "nodejs16.x"
 
   recreate_missing_package = false
   source_path              = "${path.module}/${var.lambda_path}"
@@ -20,6 +20,7 @@ module "lambda" {
   role_path                 = var.iam_role_path
   policy_path               = var.iam_role_path
   role_permissions_boundary = var.iam_role_permissions_boundary
+  timeout                   = 8
 
   environment_variables = {
     BASE_DOMAIN = var.base_domain

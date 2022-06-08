@@ -81,3 +81,8 @@ variable "alb_access_logs" {
   description = "Map of aws_lb access_log config"
   default     = {}
 }
+
+variable "batcave_sg" {
+  description = "security group for batcave cluster"
+  type = string
+}
