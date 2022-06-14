@@ -65,6 +65,24 @@ variable "lambda_path" {
   default     = "lambda"
 }
 
+variable "lambda_runtime" {
+  description = "The runtime environment to use for this lambda (e.g. 'python3.9' or 'nodejs16.x')"
+  default     = "nodejs16.x"
+  type        = string
+}
+
+variable "lambda_handler" {
+  description = "The entry point of the lambda (i.e. the fully qualified name of the function in the code that handles the lambda)"
+  type        = string
+}
+
+variable "lambda_timeout" {
+  description = "The number of seconds the lambda will be allowed to execute before timing out"
+  type        = number
+  # AWS Default for newly created Lambdas
+  default     = 3
+}
+
 variable "ingress_prefix_lists" {
   description = "List of prefix lists to attach to ALB Security Group"
   default     = []
