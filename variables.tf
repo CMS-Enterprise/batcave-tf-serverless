@@ -72,7 +72,7 @@ variable "lambda_runtime" {
 }
 
 variable "lambda_handler" {
-  description = "The entry point of the lambda (i.e. the fully qualified name of the function in the code that handles the lambda)"
+  description = "The entry point of the lambda (i.e. the fully qualified name of the function to be invoked: file-or-module-name.function-name)"
   type        = string
 }
 
@@ -100,7 +100,8 @@ variable "alb_access_logs" {
   default     = {}
 }
 
-variable "batcave_sg" {
-  description = "security group for batcave cluster"
-  type = string
+variable "ingress_sgs" {
+  description = "A list of security groups in which https ingress rules will be created"
+  type        = list(string)
+  default     = []
 }
