@@ -10,7 +10,7 @@ module "lambda" {
   handler       = var.lambda_handler
   runtime       = var.lambda_runtime
 
-  recreate_missing_package = false
+  recreate_missing_package = true
   source_path              = "${path.module}/${var.lambda_path}"
 
   vpc_subnet_ids         = var.private_subnets
