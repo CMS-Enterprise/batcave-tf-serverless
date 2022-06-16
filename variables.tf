@@ -76,6 +76,12 @@ variable "lambda_handler" {
   type        = string
 }
 
+variable "lambda_environment" {
+  description = "Environment variables used by the lambda function."
+  type        = map(string)
+  default     = null
+}
+
 variable "lambda_timeout" {
   description = "The number of seconds the lambda will be allowed to execute before timing out"
   type        = number

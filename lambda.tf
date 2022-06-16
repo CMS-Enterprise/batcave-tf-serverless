@@ -22,9 +22,7 @@ module "lambda" {
   role_permissions_boundary = var.iam_role_permissions_boundary
   timeout                   = var.lambda_timeout
 
-  environment_variables = {
-    BASE_DOMAIN = var.base_domain
-  }
+  environment_variables = var.lambda_environment
 }
 
 # These resources attach the ALB to the Lambda
