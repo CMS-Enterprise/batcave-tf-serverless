@@ -7,10 +7,10 @@ module "lambda" {
   ]
 
   function_name = var.service_name
-  handler       = "index.lambda_handler"
-  runtime       = "python3.9"
+  handler       = var.lambda_handler
+  runtime       = var.lambda_runtime
 
-  recreate_missing_package = false
+  recreate_missing_package = true
   source_path              = "${path.module}/${var.lambda_path}"
 
   vpc_subnet_ids         = var.private_subnets
@@ -20,10 +20,9 @@ module "lambda" {
   role_path                 = var.iam_role_path
   policy_path               = var.iam_role_path
   role_permissions_boundary = var.iam_role_permissions_boundary
+  timeout                   = var.lambda_timeout
 
-  environment_variables = {
-    BASE_DOMAIN = var.base_domain
-  }
+  environment_variables = var.lambda_environment
 }
 
 # These resources attach the ALB to the Lambda

@@ -65,6 +65,30 @@ variable "lambda_path" {
   default     = "lambda"
 }
 
+variable "lambda_runtime" {
+  description = "The runtime environment to use for this lambda (e.g. 'python3.9' or 'nodejs16.x')"
+  default     = "nodejs16.x"
+  type        = string
+}
+
+variable "lambda_handler" {
+  description = "The entry point of the lambda (i.e. the fully qualified name of the function to be invoked: file-or-module-name.function-name)"
+  type        = string
+}
+
+variable "lambda_environment" {
+  description = "Environment variables used by the lambda function."
+  type        = map(string)
+  default     = null
+}
+
+variable "lambda_timeout" {
+  description = "The number of seconds the lambda will be allowed to execute before timing out"
+  type        = number
+  # AWS Default for newly created Lambdas
+  default     = 3
+}
+
 variable "ingress_prefix_lists" {
   description = "List of prefix lists to attach to ALB Security Group"
   default     = []
@@ -80,4 +104,10 @@ variable "ingress_cidrs" {
 variable "alb_access_logs" {
   description = "Map of aws_lb access_log config"
   default     = {}
+}
+
+variable "ingress_sgs" {
+  description = "A list of security groups in which https ingress rules will be created"
+  type        = list(string)
+  default     = []
 }

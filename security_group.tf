@@ -43,3 +43,14 @@ resource "aws_security_group_rule" "ingress_prefix_list" {
   prefix_list_ids   = var.ingress_prefix_lists
   security_group_id = aws_security_group.lambda.id
 }
+
+resource "aws_security_group_rule" "https-ingress" {
+  for_each = toset(var.ingress_sgs)
+  description = "allow ingress from lambda"
+  type = "ingress" 
+  to_port = 443
+  from_port = 443
+  protocol = "TCP"
+  security_group_id = each.key
+  source_security_group_id = aws_security_group.lambda.id
+}
