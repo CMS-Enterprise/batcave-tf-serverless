@@ -3,6 +3,7 @@
 #  Alternately, search ENIs for the security group ID and delete them
 #  manually while you wait
 resource "aws_security_group" "lambda" {
+  count       = var.enabled ? 1 : 0
   name        = "${var.service_name}-alb-lambda"
   description = "Security group for ${var.service_name}"
   vpc_id      = local.vpc_id
@@ -17,40 +18,41 @@ resource "aws_security_group" "lambda" {
 }
 
 resource "aws_security_group_rule" "egress" {
+  count             = var.enabled ? 1 : 0
   type              = "egress"
   from_port         = 0
   to_port           = 0
   protocol          = "-1"
   cidr_blocks       = ["0.0.0.0/0"]
-  security_group_id = aws_security_group.lambda.id
+  security_group_id = aws_security_group.lambda[0].id
 }
 
 resource "aws_security_group_rule" "ingress_cidrs" {
-  count             = length(var.ingress_cidrs) > 0 ? 1 : 0
+  count             = length(var.ingress_cidrs) > 0 && var.enabled ? 1 : 0
   type              = "ingress"
   from_port         = 443
   to_port           = 443
   protocol          = "tcp"
   cidr_blocks       = var.ingress_cidrs
-  security_group_id = aws_security_group.lambda.id
+  security_group_id = aws_security_group.lambda[0].id
 }
 resource "aws_security_group_rule" "ingress_prefix_list" {
-  count             = length(var.ingress_prefix_lists) > 0 ? 1 : 0
+  count             = length(var.ingress_prefix_lists) > 0 && var.enabled ? 1 : 0
   type              = "ingress"
   from_port         = 443
   to_port           = 443
   protocol          = "tcp"
   prefix_list_ids   = var.ingress_prefix_lists
-  security_group_id = aws_security_group.lambda.id
+  security_group_id = aws_security_group.lambda[0].id
 }
 
 resource "aws_security_group_rule" "https-ingress" {
-  for_each = toset(var.ingress_sgs)
+  for_each = var.enabled ? toset(var.ingress_sgs) : []
   description = "allow ingress from lambda"
   type = "ingress" 
   to_port = 443
   from_port = 443
   protocol = "TCP"
   security_group_id = each.key
-  source_security_group_id = aws_security_group.lambda.id
+  source_security_group_id = aws_security_group.lambda[0].id
 }
