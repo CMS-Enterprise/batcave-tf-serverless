@@ -2,11 +2,6 @@ variable "project" {
   default = "batcave"
 }
 
-variable "enabled" {
-  default = true
-  type    = bool
-}
-
 variable "environment" {
   default = "dev"
 }
@@ -112,7 +107,7 @@ variable "alb_access_logs" {
 }
 
 variable "ingress_sgs" {
-  description = "A list of security groups in which https ingress rules will be created allowing the lambda access"
+  description = "A list of security groups in which https ingress rules will be created"
   type        = list(string)
   default     = []
 }
