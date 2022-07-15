@@ -9,11 +9,11 @@ data "aws_route53_zone" "dns" {
 }
 
 resource "aws_route53_record" "dns" {
-  count           = var.enabled ? local.create_route53_records_count : 0
+  count           = local.create_route53_records_count
   zone_id         = data.aws_route53_zone.dns[0].zone_id
   name            = "${var.custom_subdomain}.${var.base_domain}"
   type            = "CNAME"
   ttl             = "300"
   allow_overwrite = true
-  records         = [module.alb[0].lb_dns_name]
+  records         = [module.alb.lb_dns_name]
 }

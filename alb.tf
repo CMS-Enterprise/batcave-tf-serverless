@@ -1,5 +1,4 @@
 module "alb" {
-  count   = var.enabled ? 1 : 0
   source  = "terraform-aws-modules/alb/aws"
   version = "~> 6.0"
 
@@ -9,7 +8,7 @@ module "alb" {
   subnets                    = var.frontend_subnets
   load_balancer_type         = "application"
   internal                   = true
-  security_groups            = [aws_security_group.lambda[0].id]
+  security_groups            = [aws_security_group.lambda.id]
   drop_invalid_header_fields = true
   access_logs                = var.alb_access_logs
 
@@ -46,9 +45,4 @@ module "alb" {
       }
     }
   ]
-}
-
-moved {
-  from = module.alb
-  to   = module.alb[0]
 }
