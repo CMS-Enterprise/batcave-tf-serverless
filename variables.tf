@@ -1,12 +1,13 @@
-
-
 variable "service_name" {
   default     = "batcave-status"
   type        = string
   description = "Name of the serverless service"
 }
 
-variable "vpc_id" {}
+variable "vpc_id" {
+  type        = string
+  description = "VPC ID where the lambda will execute"
+}
 
 variable "private_subnets" {
   type        = list(any)
@@ -29,10 +30,12 @@ variable "create_custom_domain" {
 }
 variable "iam_role_path" {
   default = "/delegatedadmin/developer/"
+  type    = string
 }
 
 variable "iam_role_permissions_boundary" {
   default = ""
+  type    = string
 }
 
 variable "route53_zone_type" {
@@ -52,6 +55,7 @@ variable "custom_subdomain" {
 variable "lambda_path" {
   description = "Path to the lambda code"
   default     = "lambda"
+  type        = string
 }
 
 variable "lambda_runtime" {
@@ -93,6 +97,7 @@ variable "ingress_cidrs" {
 variable "alb_access_logs" {
   description = "Map of aws_lb access_log config"
   default     = {}
+  type        = map(any)
 }
 
 variable "ingress_sgs" {

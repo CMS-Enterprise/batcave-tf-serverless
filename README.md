@@ -3,13 +3,16 @@
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
-No requirements.
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.2 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 4.61.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | n/a |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 4.61.0 |
 
 ## Modules
 
@@ -37,7 +40,7 @@ No requirements.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_alb_access_logs"></a> [alb\_access\_logs](#input\_alb\_access\_logs) | Map of aws\_lb access\_log config | `map` | `{}` | no |
+| <a name="input_alb_access_logs"></a> [alb\_access\_logs](#input\_alb\_access\_logs) | Map of aws\_lb access\_log config | `map(any)` | `{}` | no |
 | <a name="input_base_domain"></a> [base\_domain](#input\_base\_domain) | The base domain of the services the lambda should be requesting to.  eg: 'batcave.internal.cms.gov' | `string` | n/a | yes |
 | <a name="input_create_custom_domain"></a> [create\_custom\_domain](#input\_create\_custom\_domain) | Optionally create a custom domain for this serverless service | `bool` | `false` | no |
 | <a name="input_custom_subdomain"></a> [custom\_subdomain](#input\_custom\_subdomain) | Subdomain for the optionally created dns records | `string` | `"status"` | no |
@@ -55,7 +58,7 @@ No requirements.
 | <a name="input_private_subnets"></a> [private\_subnets](#input\_private\_subnets) | List of subnet ids where the lambda will execute | `list(any)` | n/a | yes |
 | <a name="input_route53_zone_type"></a> [route53\_zone\_type](#input\_route53\_zone\_type) | Optionally create DNS records, and lookup either 'private' or 'public' r53 zone | `string` | `"private"` | no |
 | <a name="input_service_name"></a> [service\_name](#input\_service\_name) | Name of the serverless service | `string` | `"batcave-status"` | no |
-| <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | n/a | `any` | n/a | yes |
+| <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | VPC ID where the lambda will execute | `string` | n/a | yes |
 
 ## Outputs
 
