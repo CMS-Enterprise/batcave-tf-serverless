@@ -4,4 +4,3 @@ data "aws_acm_certificate" "acm_certificate" {
   types       = ["AMAZON_ISSUED"]
   most_recent = true
 }
-

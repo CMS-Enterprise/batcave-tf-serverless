@@ -1,10 +1,4 @@
-variable "project" {
-  default = "batcave"
-}
 
-variable "environment" {
-  default = "dev"
-}
 
 variable "service_name" {
   default     = "batcave-status"
@@ -53,11 +47,6 @@ variable "custom_subdomain" {
   description = "Subdomain for the optionally created dns records"
 }
 
-variable "tg_prefix" {
-  type        = string
-  default     = "lambda"
-  description = "Name prefix for target groups created; must be < 6 characters"
-}
 
 
 variable "lambda_path" {
@@ -86,7 +75,7 @@ variable "lambda_timeout" {
   description = "The number of seconds the lambda will be allowed to execute before timing out"
   type        = number
   # AWS Default for newly created Lambdas
-  default     = 3
+  default = 3
 }
 
 variable "ingress_prefix_lists" {
