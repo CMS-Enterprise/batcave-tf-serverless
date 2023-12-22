@@ -1,18 +1,13 @@
-variable "project" {
-  default = "batcave"
-}
-
-variable "environment" {
-  default = "dev"
-}
-
 variable "service_name" {
   default     = "batcave-status"
   type        = string
   description = "Name of the serverless service"
 }
 
-variable "vpc_id" {}
+variable "vpc_id" {
+  type        = string
+  description = "VPC ID where the lambda will execute"
+}
 
 variable "private_subnets" {
   type        = list(any)
@@ -35,10 +30,12 @@ variable "create_custom_domain" {
 }
 variable "iam_role_path" {
   default = "/delegatedadmin/developer/"
+  type    = string
 }
 
 variable "iam_role_permissions_boundary" {
   default = ""
+  type    = string
 }
 
 variable "route53_zone_type" {
@@ -53,16 +50,12 @@ variable "custom_subdomain" {
   description = "Subdomain for the optionally created dns records"
 }
 
-variable "tg_prefix" {
-  type        = string
-  default     = "lambda"
-  description = "Name prefix for target groups created; must be < 6 characters"
-}
 
 
 variable "lambda_path" {
   description = "Path to the lambda code"
   default     = "lambda"
+  type        = string
 }
 
 variable "lambda_runtime" {
@@ -86,7 +79,7 @@ variable "lambda_timeout" {
   description = "The number of seconds the lambda will be allowed to execute before timing out"
   type        = number
   # AWS Default for newly created Lambdas
-  default     = 3
+  default = 3
 }
 
 variable "ingress_prefix_lists" {
@@ -104,6 +97,7 @@ variable "ingress_cidrs" {
 variable "alb_access_logs" {
   description = "Map of aws_lb access_log config"
   default     = {}
+  type        = map(any)
 }
 
 variable "ingress_sgs" {
